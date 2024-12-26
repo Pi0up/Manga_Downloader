@@ -89,3 +89,18 @@ Avant de lancer les scripts, vous devez installer les bibliothèques Python néc
    ```bash
    pip list
    ```
+
+## Disclaimer
+
+Ce script est fourni à des fins éducatives et personnelles uniquement. En utilisant ce script, vous acceptez les conditions suivantes :
+
+1. **Respect des droits d'auteur** :
+   Vous êtes seul responsable de l'utilisation de ce script. Les œuvres téléchargées peuvent être protégées par des droits d'auteur. Vous devez obtenir l'autorisation explicite des détenteurs de droits avant de télécharger, de distribuer ou d'utiliser tout contenu. L'auteur de ce script décline toute responsabilité en cas d'utilisation non autorisée.
+2. **Utilisation légale** :
+   Ce script est conçu pour être utilisé uniquement dans des contextes où les téléchargements et l'utilisation des œuvres sont conformes aux lois en vigueur dans votre juridiction. Toute utilisation à des fins illégales est strictement interdite.
+3. **Absence de garantie** :
+   Ce script est fourni "tel quel", sans aucune garantie d'aucune sorte. L'auteur n'assume aucune responsabilité pour les dommages ou les conséquences résultant de son utilisation.
+4. **Responsabilité individuelle** :
+   Il est de votre responsabilité de vérifier les lois locales concernant les téléchargements d'œuvres protégées par des droits d'auteur et de respecter les conditions d'utilisation des sites que vous utilisez avec ce script.
+
+En utilisant ce script, vous déclarez avoir lu, compris et accepté ce disclaimer. Si vous n'acceptez pas ces termes, vous ne devez pas utiliser ce script.
