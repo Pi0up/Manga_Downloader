@@ -1,4 +1,3 @@
-
 # Manga Downloader Scripts
 
 ## Manga Downloader
@@ -58,8 +57,6 @@ Prérequis :
 * **Nom du fichier PDF** : Le fichier PDF est nommé selon le format suivant :
   `Auteur - Série (Chapitre X) - Série.pdf`
   Exemple : `Naoya Matsumoto - Kaiju no. 8 (Chapitre 2) - Kaiju no. 8.pdf`.
-
-Le fichier 'Manga_Downloader V4.py' est utilisé pour télécharger toutes les pages du chapitre 240 du manga 'beelzebub' et générer un PDF du chapitre.
 
 ## Manga Downloader V5
 
