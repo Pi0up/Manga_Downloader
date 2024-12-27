@@ -170,33 +170,55 @@ def download_chapter(file_name, chapter, script_directory, author_name, series_n
 
 
 # Fonction principale pour télécharger plusieurs chapitres à partir de mangas.json
-def download_manga(file_name, script_directory, author_name, series_name, downloaded_chapters, mangas_folder, mangas_json_path):
-    # Charger les chapitres à partir du fichier mangas.json
-    with open(mangas_json_path, "r") as f:
+def download_manga(file_name, script_directory, author_name, series_name, downloaded_chapters, mangas_folder, json_file):
+    # Charger les chapitres depuis le fichier JSON
+    with open(json_file, "r") as f:
         mangas_data = json.load(f)
 
-    # Trouver les chapitres associés au manga
-    for manga in mangas_data:
-        if manga["file_name"] == file_name:
-            chapters = manga["chapters"]
-            break
-    else:
-        print(f"Manga {file_name} non trouvé dans le fichier {mangas_json_path}.")
+    # Trouver le manga dans la liste
+    manga = next((m for m in mangas_data if m["file_name"] == file_name), None)
+    if not manga:
+        print(f"Manga {file_name} introuvable dans {json_file}.")
         return
 
-    # Vérifier les chapitres à télécharger (seulement ceux qui ne sont pas encore téléchargés)
+    # Mettre à jour la liste des chapitres disponibles
+    manga_url = f"https://lelscans.net/scan-{file_name}/1"
+    if not update_chapters_list(manga_url, file_name, mangas_folder, Path(json_file)):
+        print(f"Impossible de mettre à jour les chapitres pour {file_name}.")
+        return
+
+    # Recharger le fichier JSON pour avoir les mises à jour
+    with open(json_file, "r") as f:
+        mangas_data = json.load(f)
+    manga = next((m for m in mangas_data if m["file_name"] == file_name), None)
+    chapters = manga.get("chapters", [])
+
+    if not chapters:
+        print(f"Aucun chapitre disponible pour {file_name}.")
+        return
+
+    # Créer le dossier du manga
+    manga_folder = mangas_folder / file_name
+    manga_folder.mkdir(parents=True, exist_ok=True)
+
+    # Téléchargement des chapitres
     for chapter in chapters:
         chapter_number = chapter["chapter_number"]
-        if chapter_number not in downloaded_chapters.get(file_name, []):
-            print(f"Début du téléchargement du chapitre {chapter_number} de {file_name}...")
-            if download_chapter(file_name, chapter_number, script_directory, author_name, series_name, downloaded_chapters, mangas_folder):
-                # Sauvegarder la progression après téléchargement réussi
-                with open(downloaded_chapters_file, "w") as f:
-                    json.dump(downloaded_chapters, f, indent=4)
-            else:
-                print(f"Chapitre {chapter_number} de {file_name} échoué ou déjà existant.")
+        chapter_url = chapter["chapter_url"]
+
+        print(f"\nTéléchargement du chapitre {chapter_number} de {series_name} ({file_name})...")
+        if chapter_number in downloaded_chapters.get(file_name, []):
+            print(f"Chapitre {chapter_number} déjà téléchargé. Passage au suivant.")
+            continue
+
+        if download_chapter(file_name, chapter_number, script_directory, author_name, series_name, downloaded_chapters, mangas_folder):
+            print(f"Chapitre {chapter_number} de {file_name} téléchargé avec succès.")
         else:
-            print(f"Chapitre {chapter_number} déjà téléchargé pour {file_name}.")
+            print(f"Échec du téléchargement du chapitre {chapter_number} de {file_name}.")
+
+        # Sauvegarder la progression
+        with open(downloaded_chapters_file, "w") as f:
+            json.dump(downloaded_chapters, f, indent=4)
 
 
 
